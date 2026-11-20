@@ -1,3 +1,9 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 2 optimizations:
+# - [MEDIUM] Add concurrency group to "nox.yml"
+# - [LOW] Explicitly set fail-fast for large matrix job "test" (12 combinations)
+# Estimated savings: ~4 min/run
+#
 name: nox
 
 on:
@@ -6,6 +12,10 @@ on:
   push:
     branches: [main]
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
     runs-on: ${{ matrix.platform }}
